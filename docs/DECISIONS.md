@@ -28,3 +28,4 @@ U = maintainer; D = delegated, reversible technical choice. One line per decisio
 - 2026-11-16 W1-04 (D) One `LocalFolderRepository`; `dev` points it at `fixtures/synthetic/` (no separate synthetic class). Symlinks leaving allowed folders are ignored.
 - 2026-11-16 W1-05 (D) SQLite in autocommit with explicit transactions; schema version in `PRAGMA user_version`; FTS5 `unicode61 remove_diacritics 2`; user queries quoted (no FTS syntax).
 - 2026-11-16 W1-06 (D) `tancrede index` command; `ModeGuard` checks loopback or `enclave.allowed_hosts` (case-insensitive) at startup and before each call.
+- 2026-11-16 D-PUB (U) PyPI publishing via GitHub trusted publishing: `publish.yml` on release published, environment `pypi`, tag must equal `v` + version, tests run before build.

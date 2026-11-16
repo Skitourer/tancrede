@@ -551,7 +551,7 @@ wheels = [
 
 [[package]]
 name = "tancrede"
-version = "0.1.0.dev0"
+version = "0.1.0.dev1"
 source = { editable = "." }
 dependencies = [
     { name = "defusedxml" },
