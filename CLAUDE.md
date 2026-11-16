@@ -13,6 +13,7 @@ Single reference: `docs/SPEC.md`. Read only the sections relevant to the task (c
 
 ## Work
 - One wave at a time; nothing out of MVP unless asked.
+- Work on a branch and open a pull request; never merge it (the maintainer merges) unless explicitly asked.
 - Before commit: `uv run ruff check`, `uv run ruff format --check`, `uv run pytest`; no blocking test (SPEC §9) failing.
 - Flag any change to `policy/`, modes or profiles for the maintainer's review.
 - Structural decision or technical choice → one line in `docs/DECISIONS.md`.
