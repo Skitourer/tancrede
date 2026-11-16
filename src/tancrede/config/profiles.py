@@ -2,7 +2,7 @@
 
 `dev` works only on the synthetic corpus inside the repository, with mock
 gateways. `real` works on the user's data, outside any coding-assistant
-terminal, with its data under `%LOCALAPPDATA%\\Tancrede`.
+terminal, with its data in the user data directory (see `real_root`).
 """
 
 from __future__ import annotations
@@ -13,10 +13,13 @@ from dataclasses import dataclass
 from enum import StrEnum
 from pathlib import Path
 
+from platformdirs import user_data_dir
+
 from tancrede.config.settings import ClassificationConfig, GatewayConfig, LabelRule, Settings
 from tancrede.domain.errors import ProfileViolation
 
 APP_DIR_NAME = "Tancrede"
+HOME_ENV = "TANCREDE_HOME"
 DEV_DATA_DIR = ".dev-data"
 DEV_CONFIG_FILE = "dev.toml"
 
@@ -56,11 +59,13 @@ def repo_root() -> Path | None:
 
 
 def real_root(environ: Mapping[str, str]) -> Path:
-    local_app_data = environ.get("LOCALAPPDATA")
-    if local_app_data:
-        return Path(local_app_data) / APP_DIR_NAME
-    # Non-Windows fallback, only useful to run the tool elsewhere than its target platform.
-    return Path.home() / ".local" / "share" / APP_DIR_NAME
+    """User data directory: `%LOCALAPPDATA%\\Tancrede` on Windows,
+    `$XDG_DATA_HOME/Tancrede` (default `~/.local/share/Tancrede`) on Linux.
+    `TANCREDE_HOME` overrides it (portable installs, tests)."""
+    override = environ.get(HOME_ENV)
+    if override:
+        return Path(override)
+    return Path(user_data_dir(APP_DIR_NAME, appauthor=False, roaming=False))
 
 
 def resolve_paths(profile: Profile, environ: Mapping[str, str], repo: Path | None) -> ProfilePaths:

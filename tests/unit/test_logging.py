@@ -24,7 +24,7 @@ def _emit_everything(log: logging.Logger) -> None:
 
 
 def test_t_dev_03_real_logs_are_redacted(tmp_path: Path) -> None:
-    paths = resolve_paths(Profile.REAL, {"LOCALAPPDATA": str(tmp_path)}, None)
+    paths = resolve_paths(Profile.REAL, {"TANCREDE_HOME": str(tmp_path)}, None)
     configure_logging(Profile.REAL, paths)
     log = logging.getLogger("tancrede.test")
     _emit_everything(log)

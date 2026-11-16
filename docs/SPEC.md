@@ -1,9 +1,9 @@
-# Tancrède — SPEC V1.39
+# Tancrède — SPEC V1.40
 
 Single development reference for the public repository; overrides any other document. Project name: Tancrède (display), `tancrede` (repo, PyPI package, import name). License: MIT. This repo must never contain organization-specific content (employer names, internal AI service names, internal marking labels, internal hosts).
 
 ## 1. Product
-Single-user Windows desktop assistant: work organization, knowledge, cognitive load. Orchestrates sources chosen by the user (notes, local documents, project memory; email later) and language models through pluggable gateways (local model, OpenAI-compatible API, or organization-specific adapters shipped as separate packages).
+Single-user desktop assistant for Windows and Linux: work organization, knowledge, cognitive load. Orchestrates sources chosen by the user (notes, local documents, project memory; email later) and language models through pluggable gateways (local model, OpenAI-compatible API, or organization-specific adapters shipped as separate packages).
 Principles: conversation-centric; sourced answers; nothing invented; no business write without confirmation.
 Two installation modes (§4): `enclave` (confidentiality guardrails enforced in code) and `open` (no restriction, user warned).
 Security level = personal tool. Only non-negotiable safeguards: §4, §5 and §11.
@@ -23,7 +23,7 @@ MVP:
 11. Degraded mode without model: search and notes still work.
 12. Evaluation journal (§10), off by default.
 
-Out of MVP, do not build unless asked: per-task routing to several providers, English UI (`locales/en.toml`), Outlook connector (read), configurable personality, cognitive load manager, assisted archiving, Markdown/JSON export, dictation and screenshots, quick palette, drag-and-drop, natural-language settings, active-context indicator, macOS/Linux; then V2 (handwriting, semantic search, multi-device…).
+Out of MVP, do not build unless asked: per-task routing to several providers, English UI (`locales/en.toml`), Outlook connector (read), configurable personality, cognitive load manager, assisted archiving, Markdown/JSON export, dictation and screenshots, quick palette, drag-and-drop, natural-language settings, active-context indicator, macOS support; then V2 (handwriting, semantic search, multi-device…).
 
 Permanent prohibitions: processing content carrying an excluded label (§5); in `enclave`, any network call outside allowed endpoints (§4); sending email or invitations, deleting a mail item; exposing real data to the coding assistant (§11).
 
@@ -58,10 +58,11 @@ Set at install in `config.toml` (`mode = "enclave" | "open"`); default `enclave`
 
 ## 5. Classification
 - Labels are configuration, not code: `classification.excluded_labels` (list of label names + detection patterns) and `classification.included_labels`. The repo ships no real label, only fictitious ones in `fixtures/`.
+- Pattern = plain string, matched case-insensitively as a whole token (not inside a longer word or label).
 - Excluded from index and models: any excluded label, non-extractable text (scanned PDF, unreadable file).
 - Local pattern detection (metadata, header, footer, body) before indexing; an exclusion label always wins over an included one.
 - Unknown or missing label = no label (indexed).
-- Manual exclusion of a file or folder possible; no automatic reinstatement.
+- Manual exclusion of a file or folder possible (`excluded_paths`); no automatic reinstatement.
 - Excluded content: no trace in the index, nothing revealed in answers.
 - Accepted limitation: excluded content without a readable label is not detected (mitigation: chosen folders only).
 - Organization label sets may be shipped by an external plugin (`tancrede.labels` entry point).
@@ -117,7 +118,8 @@ tancrede/ pyproject.toml uv.lock .pre-commit-config.yaml .gitignore LICENSE READ
 - Forbidden: `eval`/`exec`, `pickle` on external data, `subprocess(shell=True)`.
 - Services off the UI thread via `QThreadPool`, cancellation by token.
 - Errors: `TancredeError` → `ExcludedByClassification`, `StaleVersion`, `SourceUnavailable`, `ModelUnavailable`, `ModeViolation`.
-- Packaging: standalone `pyside6-deploy`, per-user install without admin rights; also `pip install tancrede`.
+- Platforms: Windows and Linux, both tested in CI; macOS untested. No OS-specific code outside `config/profiles.py` and future optional plugins.
+- Packaging: standalone `pyside6-deploy` (Windows and Linux), per-user install without admin rights; also `pip install tancrede`.
 
 ## 8. Synthetic corpus `fixtures/synthetic/`
 Invented identities, paths and labels (e.g. `FICTIVE-SECRET`, `FICTIVE-INTERNAL`). Required cases:
@@ -175,11 +177,11 @@ The coding assistant never sees data processed by the tool nor any gateway param
 - `real`: run by the user only, outside the VS Code terminal; real allowed folders; configured gateways.
 
 Rules:
-1. `real` database (journal included), index, logs and config under `%LOCALAPPDATA%\Tancrede`, never in the repo.
+1. `real` database (journal included), index, logs and config in the user data directory — `%LOCALAPPDATA%\Tancrede` on Windows, `~/.local/share/Tancrede` on Linux (`TANCREDE_HOME` overrides) — never in the repo.
 2. `dev` refuses any path outside the repo (T-DEV-01).
 3. `real` refuses to start if environment variables reveal a VS Code or Claude Code terminal (T-DEV-02).
 4. `real` logs: IDs, error codes, durations only; no source, prompt or answer text, exception traces included (T-DEV-03).
-5. Second barrier: read-deny rule on `%LOCALAPPDATA%\Tancrede` in Claude Code settings.
+5. Second barrier: read-deny rule on the user data directory in Claude Code settings.
 6. Bug on real data: reproduce it on a fictitious case; never real content in the conversation.
 
 ## 12. Waves
@@ -191,6 +193,5 @@ Moving to the next wave = gate tests green.
 - W4 Packaging (`pyside6-deploy`, PyPI), README, end-to-end walkthrough, gap list. Gate: full scenario passes.
 
 ## 13. Open points
-- CLS-01 (W1): label pattern syntax in config (plain strings, regex, or both).
 - DEV-O-06 (W0): VS Code / Claude Code detection variables; deny-rule syntax.
 - PUB-O-01 (W0): reserve `tancrede` on PyPI (empty 0.0.0 release).

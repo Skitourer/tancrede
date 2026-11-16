@@ -60,9 +60,9 @@ def test_dev_refuses_config_with_real_gateway(tmp_path: Path) -> None:
 
 
 def _clean_env(tmp_path: Path) -> dict[str, str]:
-    keep = ("PATH", "SYSTEMROOT", "HOME", "PYTHONPATH")
+    keep = ("PATH", "SYSTEMROOT", "HOME", "USERPROFILE", "LOCALAPPDATA", "APPDATA", "PYTHONPATH")
     env = {k: v for k, v in os.environ.items() if k in keep}
-    env["LOCALAPPDATA"] = str(tmp_path)
+    env["TANCREDE_HOME"] = str(tmp_path / "Tancrede")
     return env
 
 
@@ -82,7 +82,8 @@ def test_w0_gate_real_profile_calls_local_openai_server(tmp_path: Path, fake_ser
     root.mkdir()
     (root / "config.toml").write_text(
         f'mode = "enclave"\ndefault_gateway = "local"\n'
-        f'[gateways.local]\ntype = "openai"\nbase_url = "{fake_server}"\nmodel = "tiny"\n',
+        f'[gateways.local]\ntype = "openai"\nbase_url = "{fake_server}"\nmodel = "tiny"\n'
+        '[[classification.excluded_labels]]\nname = "FICTIVE-SECRET"\n',
         encoding="utf-8",
     )
     result = _run_real(_clean_env(tmp_path))

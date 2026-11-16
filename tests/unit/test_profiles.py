@@ -78,14 +78,20 @@ def test_t_dev_02_real_allowed_from_plain_terminal(clean_env: dict[str, str]) ->
     ensure_real_allowed_here({**clean_env, "TERM_PROGRAM": "WindowsTerminal"})
 
 
-def test_real_paths_under_localappdata(clean_env: dict[str, str], repo: Path) -> None:
+def test_real_paths_follow_override(clean_env: dict[str, str], repo: Path) -> None:
     paths = resolve_paths(Profile.REAL, clean_env, repo)
-    assert paths.root == Path(clean_env["LOCALAPPDATA"]) / "Tancrede"
+    assert paths.root == Path(clean_env["TANCREDE_HOME"])
     assert paths.config_file.name == "config.toml"
 
 
 def test_real_data_never_inside_repo(repo: Path) -> None:
-    env = {"LOCALAPPDATA": str(repo / "inside")}
+    env = {"TANCREDE_HOME": str(repo / "inside")}
     paths = resolve_paths(Profile.REAL, env, repo)
     with pytest.raises(ProfileViolation, match="inside the repository"):
         check_profile(Profile.REAL, default_dev_settings(repo), paths, repo)
+
+
+def test_real_default_path_is_platform_user_data_dir(repo: Path) -> None:
+    root = resolve_paths(Profile.REAL, {}, repo).root
+    assert root.name == "Tancrede"
+    assert root.is_absolute()

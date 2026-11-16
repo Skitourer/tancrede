@@ -6,7 +6,6 @@ APIs. Error messages never include prompt or answer text.
 
 from __future__ import annotations
 
-import ipaddress
 import time
 from urllib.parse import urlsplit
 
@@ -14,17 +13,7 @@ import httpx
 
 from tancrede.domain.errors import ConfigError, ModelUnavailable
 from tancrede.models.types import ModelRequest, ModelResponse
-
-LOOPBACK_NAMES = frozenset({"localhost"})
-
-
-def is_loopback(host: str) -> bool:
-    if host.lower() in LOOPBACK_NAMES or host.lower().endswith(".localhost"):
-        return True
-    try:
-        return ipaddress.ip_address(host).is_loopback
-    except ValueError:
-        return False
+from tancrede.policy.network import is_loopback
 
 
 class OpenAICompatibleGateway:

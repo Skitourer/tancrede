@@ -16,4 +16,4 @@ def repo() -> Path:
 @pytest.fixture
 def clean_env(tmp_path: Path) -> dict[str, str]:
     """An environment without any coding-assistant marker, real data under tmp."""
-    return {"LOCALAPPDATA": str(tmp_path / "LocalAppData")}
+    return {"TANCREDE_HOME": str(tmp_path / "TancredeHome")}

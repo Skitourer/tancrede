@@ -21,3 +21,10 @@ U = maintainer; D = delegated, reversible technical choice. One line per decisio
 - 2026-11-16 W0-05 (D) `real` logs: event code + whitelisted fields (`id`, `code`, `gateway`, `task_kind`, `count`, `duration_ms`) + exception type only.
 - 2026-11-16 W0-06 (D) Loopback gateways ignore system proxy settings; enclave plugin allow-list applied at discovery.
 - 2026-11-16 W0-07 (D) CI on GitHub Actions, Windows and Ubuntu, Python 3.13.
+- 2026-11-16 D-OS (U) Windows and Linux both supported and tested in CI; macOS untested. Real data directory from `platformdirs` (`TANCREDE_HOME` overrides) (SPEC §7, §11).
+- 2026-11-16 W1-01 (D) Label pattern = plain string, case-insensitive, whole token, spaces match any whitespace; a rule without pattern uses its name (closes CLS-01).
+- 2026-11-16 W1-02 (D) Extraction: Markdown/text (UTF-8 then cp1252, `key: value` front matter as metadata), PDF via `pypdf`, DOCX via zip + `defusedxml` (body, headers, footers, document properties); any parser failure = non-extractable.
+- 2026-11-16 W1-03 (D) Every refresh re-classifies every file (label config may change); excluded files are never stored, not even their path; previously indexed ones are removed.
+- 2026-11-16 W1-04 (D) One `LocalFolderRepository`; `dev` points it at `fixtures/synthetic/` (no separate synthetic class). Symlinks leaving allowed folders are ignored.
+- 2026-11-16 W1-05 (D) SQLite in autocommit with explicit transactions; schema version in `PRAGMA user_version`; FTS5 `unicode61 remove_diacritics 2`; user queries quoted (no FTS syntax).
+- 2026-11-16 W1-06 (D) `tancrede index` command; `ModeGuard` checks loopback or `enclave.allowed_hosts` (case-insensitive) at startup and before each call.

@@ -16,10 +16,14 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Programming Language :: Python :: 3.13",
     "Operating System :: Microsoft :: Windows",
+    "Operating System :: POSIX :: Linux",
 ]
 dependencies = [
+    "defusedxml>=0.7",
     "httpx>=0.28",
+    "platformdirs>=4.3",
     "pydantic>=2.9",
+    "pypdf>=5.1",
 ]
 
 [project.urls]
