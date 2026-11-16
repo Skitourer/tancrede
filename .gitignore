@@ -23,3 +23,7 @@ config.toml
 .idea/
 .DS_Store
 Thumbs.db
+
+# Dev profile data and config
+.dev-data/
+dev.toml

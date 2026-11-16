@@ -1,0 +1,6 @@
+{
+  "description": "A proposal is made on version 3 of a task; the task reaches version 4 before confirmation.",
+  "task_at_proposal": {"id": "task-orion-7", "project_id": "orion", "title": "Book the test bench", "status": "todo", "due": "2027-02-01", "version": 3},
+  "proposal": {"id": "prop-1", "target": "task-orion-7", "target_version": 3, "action": {"set": {"due": "2027-02-15"}}},
+  "task_before_execution": {"id": "task-orion-7", "project_id": "orion", "title": "Book the test bench", "status": "in_progress", "due": "2027-02-01", "version": 4}
+}
