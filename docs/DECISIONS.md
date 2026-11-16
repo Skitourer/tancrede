@@ -14,3 +14,10 @@ U = maintainer; D = delegated, reversible technical choice. One line per decisio
 - 2026-11-16 D-MODE (U) Two install modes: `enclave` (guardrails in code: allowed endpoints only, mandatory classification, no outbound network, allowed plugins only) and `open` (no restriction, user warned) (SPEC §4).
 - 2026-11-16 D-LABEL (U) Classification labels are configuration; unknown label = no label; exclusion wins (SPEC §5).
 - 2026-11-16 D-AUTHOR (U) Author and copyright holder: `skitourer` (GitHub and PyPI handle); no real name in the repo, `LICENSE` or package metadata.
+- 2026-11-16 W0-01 (D) PySide6 added in W3, when the UI starts; W0 depends only on httpx and Pydantic.
+- 2026-11-16 W0-02 (D) Locale files live in `src/tancrede/locales/` (packaged), not at repo root.
+- 2026-11-16 W0-03 (D) `dev` refuses any non-mock gateway, in addition to folders outside the repo; optional `dev.toml` (git-ignored) at repo root, data in `.dev-data/`.
+- 2026-11-16 W0-04 (D) Extra errors `ConfigError`, `ProfileViolation`; error messages never carry source, prompt or answer text.
+- 2026-11-16 W0-05 (D) `real` logs: event code + whitelisted fields (`id`, `code`, `gateway`, `task_kind`, `count`, `duration_ms`) + exception type only.
+- 2026-11-16 W0-06 (D) Loopback gateways ignore system proxy settings; enclave plugin allow-list applied at discovery.
+- 2026-11-16 W0-07 (D) CI on GitHub Actions, Windows and Ubuntu, Python 3.13.

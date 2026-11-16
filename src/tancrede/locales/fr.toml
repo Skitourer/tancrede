@@ -1,0 +1,20 @@
+[cli]
+description = "Tancrède — assistant de bureau pour les notes, les projets et la charge cognitive."
+profile_help = "Profil d'exécution : dev (corpus fictif) ou real (vos données)."
+config_help = "Fichier de configuration (profil dev uniquement)."
+check_help = "Vérifier qu'une passerelle de modèle répond (prompt fictif)."
+gateway_help = "Nom de la passerelle à tester (par défaut : toutes)."
+version_help = "Afficher la version."
+
+[check]
+prompt = "Reply with the single word: pong."
+header = "Profil {profile}, mode {mode} — test de {count} passerelle(s)."
+ok = "Passerelle {name} ({hosts}) : OK en {ms} ms — modèle {model}, réponse : « {reply} »"
+failed = "Passerelle {name} ({hosts}) : indisponible ({error})"
+unknown = "Passerelle inconnue : {name}"
+no_hosts = "locale"
+
+[error]
+startup = "Démarrage refusé : {message}"
+config_only_dev = "L'option --config n'est autorisée qu'avec le profil dev."
+bad_profile = "Profil inconnu : {value} (attendu : dev ou real)."

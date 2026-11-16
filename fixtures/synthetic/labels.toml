@@ -1,0 +1,7 @@
+[[classification.excluded_labels]]
+name = "FICTIVE-SECRET"
+patterns = ["FICTIVE-SECRET"]
+
+[[classification.included_labels]]
+name = "FICTIVE-INTERNAL"
+patterns = ["FICTIVE-INTERNAL"]
