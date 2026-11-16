@@ -8,7 +8,8 @@ import pytest
 from tancrede.domain.errors import ConfigError, ModelUnavailable
 from tancrede.domain.task_kind import TaskKind
 from tancrede.models import ModelRequest
-from tancrede.models.openai_compat import OpenAICompatibleGateway, is_loopback
+from tancrede.models.openai_compat import OpenAICompatibleGateway
+from tancrede.policy.network import is_loopback
 
 PROMPT = "fictitious question about Orion"
 

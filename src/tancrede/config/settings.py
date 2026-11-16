@@ -47,6 +47,7 @@ class EnclaveConfig(_Strict):
 class Settings(_Strict):
     mode: Literal["enclave", "open"] = "enclave"
     allowed_folders: list[Path] = Field(default_factory=list)
+    excluded_paths: list[Path] = Field(default_factory=list)
     default_gateway: str | None = None
     routing: dict[TaskKind, str] = Field(default_factory=dict)
     gateways: dict[str, GatewayConfig] = Field(default_factory=dict)

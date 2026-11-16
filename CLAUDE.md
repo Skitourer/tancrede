@@ -4,7 +4,7 @@ Single reference: `docs/SPEC.md`. Read only the sections relevant to the task (c
 
 ## Non-negotiable
 - Public MIT repo: never write organization-specific content (employer names, internal AI services, internal marking labels, internal hosts) or the maintainer's real name in code, tests, docs or commits. Fixtures use fictitious labels only.
-- `dev` profile only (`fixtures/synthetic/`, `MockModelGateway`). Never the `real` profile; never `%LOCALAPPDATA%\Tancrede` or any real folder of the maintainer.
+- `dev` profile only (`fixtures/synthetic/`, `MockModelGateway`). Never the `real` profile; never the real user data directory (`%LOCALAPPDATA%\Tancrede`, `~/.local/share/Tancrede`) or any real folder of the maintainer.
 - Never ask for real content, `real` logs, the evaluation journal or gateway parameters; for a real-data bug, ask for a fictitious repro. Real data spotted (repo, terminal, conversation) → stop and report.
 - No gateway configuration value (URL, key, model of a real service) in the repo.
 - Classification (SPEC §5) and mode guardrails (SPEC §4) in deterministic code, enforced at startup and at every gateway call.

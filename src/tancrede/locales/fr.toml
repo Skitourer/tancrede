@@ -5,6 +5,7 @@ config_help = "Fichier de configuration (profil dev uniquement)."
 check_help = "Vérifier qu'une passerelle de modèle répond (prompt fictif)."
 gateway_help = "Nom de la passerelle à tester (par défaut : toutes)."
 version_help = "Afficher la version."
+index_help = "Indexer les dossiers autorisés (lecture seule)."
 
 [check]
 prompt = "Reply with the single word: pong."
@@ -18,3 +19,6 @@ no_hosts = "locale"
 startup = "Démarrage refusé : {message}"
 config_only_dev = "L'option --config n'est autorisée qu'avec le profil dev."
 bad_profile = "Profil inconnu : {value} (attendu : dev ou real)."
+
+[index]
+report = "Profil {profile} — indexés : {indexed}, inchangés : {unchanged}, exclus par marquage : {excluded}, illisibles : {non_extractable}, retirés : {removed}."

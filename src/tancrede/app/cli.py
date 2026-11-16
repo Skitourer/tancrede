@@ -1,4 +1,4 @@
-"""Command line: `tancrede check-gateway`, `tancrede --version`."""
+"""Command line: `tancrede check-gateway`, `tancrede index`, `tancrede --version`."""
 
 from __future__ import annotations
 
@@ -27,6 +27,7 @@ def _parser() -> argparse.ArgumentParser:
     sub = parser.add_subparsers(dest="command", required=True)
     check = sub.add_parser("check-gateway", help=t("cli.check_help"))
     check.add_argument("--gateway", help=t("cli.gateway_help"))
+    sub.add_parser("index", help=t("cli.index_help"))
     return parser
 
 
@@ -62,6 +63,22 @@ def _check_gateway(ctx: AppContext, only: str | None) -> int:
     return 1 if failures else 0
 
 
+def _index(ctx: AppContext) -> int:
+    report = ctx.index.refresh()
+    print(
+        t(
+            "index.report",
+            profile=ctx.profile.value,
+            indexed=report.indexed,
+            unchanged=report.unchanged,
+            excluded=report.excluded,
+            non_extractable=report.non_extractable,
+            removed=report.removed,
+        )
+    )
+    return 0
+
+
 def main(argv: Sequence[str] | None = None) -> int:
     args = _parser().parse_args(argv)
     raw_profile = args.profile or os.environ.get("TANCREDE_PROFILE", Profile.DEV.value)
@@ -75,8 +92,13 @@ def main(argv: Sequence[str] | None = None) -> int:
         return 2
     try:
         ctx = bootstrap(profile, config_path=args.config)
-        if args.command == "check-gateway":
-            return _check_gateway(ctx, args.gateway)
+        try:
+            if args.command == "check-gateway":
+                return _check_gateway(ctx, args.gateway)
+            if args.command == "index":
+                return _index(ctx)
+        finally:
+            ctx.close()
     except (ConfigError, TancredeError) as exc:
         print(t("error.startup", message=exc), file=sys.stderr)
         return 2

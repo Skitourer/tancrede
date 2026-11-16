@@ -1,13 +1,17 @@
 # Tancrède — example configuration for the `real` profile.
-# Copy to %LOCALAPPDATA%\Tancrede\config.toml and adapt. Never commit a real config.
+# Copy to config.toml in %LOCALAPPDATA%\Tancrede (Windows) or ~/.local/share/Tancrede (Linux) and adapt. Never commit a real config.
 
 # "enclave": guardrails enforced in code (SPEC §4). "open": no restriction, you are warned.
 mode = "enclave"
 
 # Folders Tancrède may read (read-only).
 allowed_folders = [
-    # 'C:\Users\you\Documents\Notes',
+    # 'C:\Users\you\Documents\Notes',   # Windows
+    # '/home/you/Notes',                  # Linux
 ]
+
+# Files or folders never read, even inside allowed folders.
+excluded_paths = []
 
 default_gateway = "local"
 eval_journal = false

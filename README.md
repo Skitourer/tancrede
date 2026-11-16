@@ -17,19 +17,24 @@ A desktop assistant for notes, projects and cognitive load.
 - **`enclave`**: for sensitive environments. Only allowed endpoints can be reached, classification filtering is mandatory, no telemetry, no outbound network beyond your model.
 - **`open`**: no restriction; you are clearly warned that data may leave your machine.
 
-## Try it (wave W0: model connection only)
+## Try it (waves W0–W1: model connection and indexing)
+
+Works on Windows and Linux.
 
 ```
 uv sync
 uv run tancrede check-gateway                    # dev profile, mock model
+uv run tancrede index                            # dev profile, synthetic corpus
 ```
 
 To test your own model, copy [`docs/config.example.toml`](docs/config.example.toml) to
-`%LOCALAPPDATA%\Tancrede\config.toml`, start your model server (e.g. Ollama), then from a plain
+`config.toml` in your user data directory (`%LOCALAPPDATA%\Tancrede` on Windows,
+`~/.local/share/Tancrede` on Linux), start your model server (e.g. Ollama), then from a plain
 terminal (not VS Code):
 
 ```
 uv run tancrede --profile real check-gateway
+uv run tancrede --profile real index
 ```
 
 ## Development
